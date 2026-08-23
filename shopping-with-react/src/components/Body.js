@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Cart } from "./Cart";
 import { Address } from "./Address";
 import { Menu } from "./Menu";
+import { Pizza } from "./Pizza";
 
 export function Body() {
   const [cartItems, setCartItems] = useState([]);
@@ -38,11 +39,16 @@ export function Body() {
 
   return (
     <main>
-      <Menu
-        cartItems={cartItems}
-        onAddItem={handleAddItem}
-        onRemoveItem={handleRemoveItem}
-      />
+      <Menu>
+        {(pizza) => (
+          <Pizza
+            pizza={pizza}
+            cartItems={cartItems}
+            onAddItem={handleAddItem}
+            onRemoveItem={handleRemoveItem}
+          />
+        )}
+      </Menu>
       {cartItems.length > 0 && (
         <>
           <Cart

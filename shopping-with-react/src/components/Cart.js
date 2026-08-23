@@ -1,4 +1,3 @@
-import React from "react";
 import { pizzaData } from "../constants/pizzaData";
 
 export function Cart({ items, onClearCart, onRemoveItem }) {

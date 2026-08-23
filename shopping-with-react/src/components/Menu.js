@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Actions } from "./Actions";
-import { Pizza } from "./Pizza";
 import { pizzaData } from "../constants/pizzaData";
 
 function processPizzas({ sortBy, includeOutOfStock }) {
@@ -21,7 +20,7 @@ function processPizzas({ sortBy, includeOutOfStock }) {
 
   return processedPizzas;
 }
-export function Menu({ cartItems, onAddItem, onRemoveItem }) {
+export function Menu({ children }) {
   const [filters, setFilters] = useState({
     sortBy: "",
     includeOutOfStock: false,
@@ -39,14 +38,7 @@ export function Menu({ cartItems, onAddItem, onRemoveItem }) {
       <Actions filters={filters} onFiltersChange={handleFiltersChange} />
       <ul>
         {processedPizzas.map((pizza) => (
-          <li key={pizza.id}>
-            <Pizza
-              pizza={pizza}
-              cartItems={cartItems}
-              onAddItem={onAddItem}
-              onRemoveItem={onRemoveItem}
-            />
-          </li>
+          <li key={pizza.id}>{children(pizza)}</li>
         ))}
       </ul>
     </>

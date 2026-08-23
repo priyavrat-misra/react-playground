@@ -1,5 +1,3 @@
-import React from "react";
-
 export function Pizza({ pizza, cartItems, onAddItem, onRemoveItem }) {
   const count = cartItems.find((item) => item.id === pizza.id)?.count ?? 0;
 

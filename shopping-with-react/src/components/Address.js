@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { AddAddress } from "./AddAddress";
 import { ChooseAddress } from "./ChooseAddress";
 
