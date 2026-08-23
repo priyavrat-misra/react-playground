@@ -1,11 +1,10 @@
-import { Friend } from "./Friend";
+import React from "react";
 
-export function FriendList({ friends, selectedId, onSelect }) {
+export function FriendList({ children }) {
   return (
     <ul style={{ padding: 0 }}>
-      {friends.map((f) => (
+      {React.Children.map(children, (child) => (
         <li
-          key={f.id}
           style={{
             display: "flex",
             alignItems: "center",
@@ -14,7 +13,7 @@ export function FriendList({ friends, selectedId, onSelect }) {
             border: "1px solid lightgray",
           }}
         >
-          <Friend friend={f} selectedId={selectedId} onSelect={onSelect} />
+          {child}
         </li>
       ))}
     </ul>

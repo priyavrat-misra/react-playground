@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Bill } from "./components/Bill";
 import { FriendList } from "./components/FriendList";
+import { Friend } from "./components/Friend";
 import { AddFriend } from "./components/AddFriend";
 
 function App() {
@@ -33,11 +34,15 @@ function App() {
       </header>
       <section style={{ width: "50%", float: "left" }}>
         {friends.length > 0 && (
-          <FriendList
-            friends={friends}
-            selectedId={selectedId}
-            onSelect={handleSelect}
-          />
+          <FriendList>
+            {friends.map((f) => (
+              <Friend
+                friend={f}
+                selectedId={selectedId}
+                onSelect={handleSelect}
+              />
+            ))}
+          </FriendList>
         )}
         <AddFriend onAddFriend={handleAddFriend} />
       </section>
