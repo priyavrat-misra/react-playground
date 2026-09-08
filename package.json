@@ -1,0 +1,10 @@
+{
+  "name": "react-playground",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "shopping-with-react",
+    "split",
+    "watchlist"
+  ]
+}
