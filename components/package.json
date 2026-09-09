@@ -1,0 +1,16 @@
+{
+  "name": "@react-playground/components",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "esbuild index.js --bundle --outfile=dist/index.js --loader:.js=jsx --external:react --format=esm",
+    "watch": "esbuild index.js --bundle --outfile=dist/index.js --loader:.js=jsx --external:react --format=esm --watch"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}
