@@ -1,4 +1,4 @@
-import { SearchBar } from "@react-playground/components";
+import { SearchBar, Loader, Alert } from "@react-playground/components";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -32,8 +32,8 @@ function App() {
   return (
     <>
       <SearchBar onSearch={handleSearch} />
-      {isLoading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
+      {isLoading && <Loader text="Please wait..." />}
+      {error && <Alert message={error} />}
       {!isLoading && !error && (
         <ul style={{ padding: 0 }}>
           {media.map(

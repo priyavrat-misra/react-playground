@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 export const SearchBar = ({ onSearch }) => {
@@ -23,4 +24,24 @@ export const SearchBar = ({ onSearch }) => {
       <button type="submit">Search</button>
     </form>
   );
+};
+
+SearchBar.propTypes = {
+  onSearch: PropTypes.func.isRequired,
+};
+
+export const Loader = ({ text = "Loading..." }) => {
+  return <p>{text}</p>;
+};
+
+Loader.propTypes = {
+  text: PropTypes.string,
+};
+
+export const Alert = ({ message }) => {
+  return <p>{message}</p>;
+};
+
+Alert.propTypes = {
+  message: PropTypes.string.isRequired,
 };
