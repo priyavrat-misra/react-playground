@@ -3,53 +3,72 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [media, setMedia] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => handleSearch("star wars"), []);
 
   function handleSearch(searchTerm) {
+    setIsLoading(true);
+    setError("");
     fetch(
-      `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&s=${searchTerm}`,
+      `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&s=${searchTerm}`,
     )
-      .then((res) => res.json())
-      .then((data) => setMedia(data.Search));
+      .then((res) => {
+        if (!res.ok) throw new Error("Something went wrong.");
+        return res.json();
+      })
+      .then((data) => {
+        if (data.Response === "False") throw new Error(data.Error);
+        setMedia(data.Search || []);
+      })
+      .catch((reason) => {
+        setError(reason.message);
+        setMedia([]);
+      })
+      .finally(() => setIsLoading(false));
   }
 
   return (
     <>
       <SearchBar onSearch={handleSearch} />
-      <ul style={{ padding: 0 }}>
-        {media.map(
-          ({
-            Title: title,
-            Year: year,
-            imdbID,
-            Type: type,
-            Poster: poster,
-          }) => (
-            <li
-              key={imdbID}
-              style={{
-                display: "flex",
-                alignItems: "flex-start",
-                gap: "16px",
-                padding: "8px 16px",
-              }}
-            >
-              <img
-                src={poster}
-                alt={`${title}'s poster`}
+      {isLoading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+      {!isLoading && !error && (
+        <ul style={{ padding: 0 }}>
+          {media.map(
+            ({
+              Title: title,
+              Year: year,
+              imdbID,
+              Type: type,
+              Poster: poster,
+            }) => (
+              <li
+                key={imdbID}
                 style={{
-                  height: 128,
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: "16px",
+                  padding: "8px 16px",
                 }}
-              />
-              <div style={{ marginRight: "auto" }}>
-                <p>{title}</p>
-                <p>{year}</p>
-              </div>
-            </li>
-          ),
-        )}
-      </ul>
+              >
+                <img
+                  src={poster}
+                  alt={`${title}'s poster`}
+                  style={{
+                    height: 128,
+                  }}
+                />
+                <div style={{ marginRight: "auto" }}>
+                  <p>{title}</p>
+                  <p>{year}</p>
+                </div>
+              </li>
+            ),
+          )}
+        </ul>
+      )}
     </>
   );
 }
