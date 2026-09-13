@@ -18,7 +18,7 @@ export const SearchBar = ({ onSearch }) => {
         type="search"
         value={query}
         onChange={handleChange}
-        placeholder="Search OMDb"
+        placeholder="star wars"
       />
       <button type="submit">Search</button>
     </form>
