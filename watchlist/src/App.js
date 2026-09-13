@@ -1,12 +1,10 @@
 import { SearchBar, Loader, Alert } from "@react-playground/components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function App() {
   const [media, setMedia] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-
-  useEffect(() => handleSearch("star wars"), []);
 
   function handleSearch(searchTerm) {
     setIsLoading(true);
@@ -31,7 +29,14 @@ function App() {
 
   return (
     <>
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar
+        placeholder="star wars"
+        onSearch={handleSearch}
+        onClear={() => {
+          setMedia([]);
+          setError("");
+        }}
+      />
       {isLoading && <Loader text="Please wait..." />}
       {error && <Alert message={error} />}
       {!isLoading && !error && (

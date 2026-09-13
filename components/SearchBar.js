@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-export const SearchBar = ({ onSearch }) => {
+export const SearchBar = ({ placeholder = "Search", onSearch, onClear }) => {
   const [query, setQuery] = useState("");
 
   function handleChange(event) {
-    setQuery(event.target.value);
+    const value = event.target.value;
+    setQuery(value);
+    if (!value) onClear?.();
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-    onSearch?.(query);
+    onSearch(query);
   }
 
   return (
@@ -19,7 +21,7 @@ export const SearchBar = ({ onSearch }) => {
         type="search"
         value={query}
         onChange={handleChange}
-        placeholder="star wars"
+        placeholder={placeholder}
       />
       <button type="submit">Search</button>
     </form>
@@ -27,5 +29,7 @@ export const SearchBar = ({ onSearch }) => {
 };
 
 SearchBar.propTypes = {
+  placeholder: PropTypes.string,
   onSearch: PropTypes.func.isRequired,
+  onClear: PropTypes.func,
 };
