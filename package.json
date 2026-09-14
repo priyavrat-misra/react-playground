@@ -7,5 +7,8 @@
     "shopping-with-react",
     "split",
     "watchlist"
-  ]
+  ],
+  "devDependencies": {
+    "eslint": "^8.57.1"
+  }
 }
