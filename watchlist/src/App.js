@@ -1,12 +1,12 @@
 import { SearchBar, Loader, Alert } from "@react-playground/components";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 function App() {
   const [media, setMedia] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  function handleSearch(searchTerm) {
+  const handleSearch = useCallback((searchTerm) => {
     setIsLoading(true);
     setError("");
     fetch(
@@ -25,11 +25,12 @@ function App() {
         setMedia([]);
       })
       .finally(() => setIsLoading(false));
-  }
+  }, []);
 
   return (
     <>
       <SearchBar
+        debounce={500}
         placeholder="star wars"
         onSearch={handleSearch}
         onClear={() => {
