@@ -2,13 +2,14 @@ import { SearchBar, Loader, Alert } from "@react-playground/components";
 import { useCallback, useState } from "react";
 
 function App() {
-  const [media, setMedia] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [state, setState] = useState({
+    status: "idle",
+    media: [],
+    error: null,
+  });
 
   const handleSearch = useCallback((searchTerm) => {
-    setIsLoading(true);
-    setError("");
+    setState({ status: "loading", media: [], error: null });
     fetch(
       `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&s=${searchTerm}`,
     )
@@ -18,13 +19,11 @@ function App() {
       })
       .then((data) => {
         if (data.Response === "False") throw new Error(data.Error);
-        setMedia(data.Search || []);
+        setState({ status: "success", media: data.Search || [], error: null });
       })
       .catch((reason) => {
-        setError(reason.message);
-        setMedia([]);
-      })
-      .finally(() => setIsLoading(false));
+        setState({ status: "error", media: [], error: reason.message });
+      });
   }, []);
 
   return (
@@ -34,15 +33,14 @@ function App() {
         placeholder="star wars"
         onSearch={handleSearch}
         onClear={() => {
-          setMedia([]);
-          setError("");
+          setState({ status: "error", media: [], error: null });
         }}
       />
-      {isLoading && <Loader text="Please wait..." />}
-      {error && <Alert message={error} />}
-      {!isLoading && !error && (
+      {state.status === "loading" && <Loader text="Please wait..." />}
+      {state.status === "error" && <Alert message={state.error} />}
+      {state.status === "success" && (
         <ul style={{ padding: 0 }}>
-          {media.map(
+          {state.media.map(
             ({
               Title: title,
               Year: year,
