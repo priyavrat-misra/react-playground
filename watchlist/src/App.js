@@ -3,12 +3,14 @@ import { useCallback, useState } from "react";
 import { Media } from "./components/Media";
 import { MediaList } from "./components/MediaList";
 
+const initState = {
+  status: "idle",
+  media: [],
+  error: null,
+};
+
 function App() {
-  const [state, setState] = useState({
-    status: "idle",
-    media: [],
-    error: null,
-  });
+  const [state, setState] = useState(initState);
 
   const handleSearch = useCallback((searchTerm) => {
     setState({ status: "loading", media: [], error: null });
@@ -35,7 +37,7 @@ function App() {
         placeholder="star wars"
         onSearch={handleSearch}
         onClear={() => {
-          setState({ status: "error", media: [], error: null });
+          setState(initState);
         }}
       />
       {state.status === "loading" && <Loader text="Please wait..." />}
