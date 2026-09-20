@@ -1,5 +1,7 @@
 import { SearchBar, Loader, Alert } from "@react-playground/components";
 import { useCallback, useState } from "react";
+import { Media } from "./components/Media";
+import { MediaList } from "./components/MediaList";
 
 function App() {
   const [state, setState] = useState({
@@ -39,39 +41,11 @@ function App() {
       {state.status === "loading" && <Loader text="Please wait..." />}
       {state.status === "error" && <Alert message={state.error} />}
       {state.status === "success" && (
-        <ul style={{ padding: 0 }}>
-          {state.media.map(
-            ({
-              Title: title,
-              Year: year,
-              imdbID,
-              Type: type,
-              Poster: poster,
-            }) => (
-              <li
-                key={imdbID}
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "16px",
-                  padding: "8px 16px",
-                }}
-              >
-                <img
-                  src={poster}
-                  alt={`${title}'s poster`}
-                  style={{
-                    height: 128,
-                  }}
-                />
-                <div style={{ marginRight: "auto" }}>
-                  <p>{title}</p>
-                  <p>{year}</p>
-                </div>
-              </li>
-            ),
-          )}
-        </ul>
+        <MediaList>
+          {state.media.map((m) => (
+            <Media media={m} />
+          ))}
+        </MediaList>
       )}
     </>
   );
